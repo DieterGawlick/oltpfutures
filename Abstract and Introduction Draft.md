@@ -1,4 +1,4 @@
-The Beginnings of OLTP Systems  
+# The Beginnings of OLTP Systems  
 <br/>Abstract
 
 Most online transaction systems can be classified as 'inventory managers' with inventories that range from a stock of physical assets (books, clothing) through more abstract assets (seat or room bookings) to purely digital ones (balances in bank accounts). The ultimate measure of success for any of these systems is whether they solve the requirements of the complete problem: How well the system meets the users' needs.
@@ -7,7 +7,7 @@ The advent of business applications that handled this complete problem moved add
 
 This paper discusses, at a conceptual level, the solutions developed for creating effective OLTP applications (with references to &lt;…&gt; for the details) and draws some conclusions about which of those requirements are still relevant today.
 
-Introduction
+## Introduction
 
 At the start of the 1970s, the most challenging applications in IT were online systems that managed bank accounts and airline seats.
 
