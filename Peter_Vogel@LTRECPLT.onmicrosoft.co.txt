@@ -1,0 +1,40 @@
+Peter_Vogel@LTRECPLT.onmicrosoft.com
+CharlieMingus
+
+
+Course number: 7405
+Sequence Number: 01	
+Industry: Financial Services	
+Industry Short Name: FIN
+Persona: Business User
+Job Role: Financial Analyst/Finance Manager	
+Use Case: AI-Enabled Financial Document Analysis with Microsoft Copilot	
+Tasks: Automate document summarization, comparison, and insight generation for financial reports using Microsoft Copilot integrated with OneDrive.	
+Copilot Tool: Copilot Chat
+
+If one answer mentions the fork or fork_session command, it's the right answer. If you are exploring two independent possibilities, the answer is fork_session
+If the user asks for a human, the right answer will include "Call a human"
+When in doubt between candidate answer, pick the longest one
+Unless the results will swamp the agent or user, returning more relevant information is always the better answer (i.e. detail on an error rather than using the same error message for different problems)
+If the agent forgets something from a couple of turns back, the problem is that the agent isn't being given all of the previous conversation with each prompt
+On the other, if the agent is forgetting something form a many turns back or costs are increasing with the number of turns, the issue is that context is being overwhelmed and early context needs to be reduced to a summary. Expanding the conversation window to keep more responses just delays the inevitable -- eventually, you'll exceed that. Summarize either regularly or at appropriate points (e.g. when an issue is resolved).
+Just blindly using /clear is always wrong unless you really do want to start over from scratch (I don't think I ever saw a question where the right answer included /clear)
+If asked about why an MCP solution for accessing some resource is best solution it's because agents don't have to write custom code -- MCP servers make all resources look alike
+For transient failures, offering the user the opportunity to retry is the right answer. An answer that implies the agent will retry forever is not.
+Structured data is better than prose and/or natural language when communicating between agents.
+Unless you are absolutely confident that data is not relevant, any answer that suggests discarding (rather than summarizing/consolidating data) is wrong. Similarly, in instructions, terse is better than verbose and providing examples (usually phrased as "few shot examples") is the best. However, if you can just return the information that's needed to make the right decision, that's the best answer (e.g. returning "retryable: false" is better than providing examples of when to retry and when not to).
+You don't update the system prompt (the overarching instructions that control the agent) during processing
+Any process that involves multiple steps and multiple entities benefits from a planning stage; anything that involves a trivial change to one or two things probably doesn't
+Agents that handle one scenario well are better than agents that try to handle multiple different scenarios
+Dynamic decision making based on all the information available is better than blindly following a process
+While, as I said in an earlier email, you need to know the different between Grep and Glob I don't think I ever saw a question that involved Grep and Glob where Grep wasn't the right answer. Sometimes there were two answers that used Grep -- the right answer is to use the Grep search that looks for the thing you want (e.g. "import <module name>" if you want to find all the places where a module is imported)
+Matching on lots of characters is frowned upon because it depends on nothing ever changing: If you search on "Peter Vogel:Great guy", it won't match if an additional space is introduced "Peter Vogel: Great guy" (feel free to disagree)
+Making one call to an MCP server that does the whole job is better than making two calls, each of which does one thing. The server should be responsible for dividing the single call up internally.
+Reading the documentation is a waste of time.
+If one answer includes the phrase "structured information" and no other answer does, it's probably the right answer.
+Any answer that includes using MCP servers is better than any answer that does not. Ditto for any answer where using MCP servers makes life better. Apparently, there is no downside to using MCP servers. Ever.(or, if there is, we're not going to talk about it or flag it as a right answer). Oh, and community-based MCP servers are THE BEST.
+
+I think I said this before "lower the temperature" is never right.
+When there is doubt, making an assumption is wrong. The agent should ask for more information.
+
+And, as I keep reminding myself: "A customer support agent" is referring to a Claude agent, not a human being.

@@ -1,0 +1,11 @@
+Reflection
+Failing to integrate messages within transactions is critical and last
+
+Terminology around this is wrong so it's hard to talk about this
+In the two phase commit, recoverability is what matters
+if it's recoverable, you can share it externally
+	You can do your internal updates at your convenience
+
+"Application/end user commit" 	
+	vs. 
+"System Commit"

@@ -1,0 +1,34 @@
+First discussion after document structure
+
+subspaces rather than data points
+	- not a specific car (entity)
+	- rather an expression: a set of specifications that a number of items that can be met
+	- search does not support this (e.g. lamp with lumens > 1500)
+	- a subscription service is an expression, defining a subspace
+		- subscribe to an ambulance with the necessary equipment, "fastest" to me
+		- mutual filtering: what the buyer wants to buy, what the seller wants to sell
+					security: What data I want vs. what data will be provided to you
+The three classes of Schema
+	1. predefined names, in some order, and use all the names
+	2. predefined names, no order specified, use the names you want
+	3. no-predefined names, no order specified, use the names you want
+
+Linearization/Serialized: SQL applies at the most restrictive level
+
+Only two transactional messaging systems: AQ and MSMQ
+					  Messages must be presented exactly once
+					  Most easily if integrated into the journal of the database
+
+If the messages are in a separate journal, two-phase commit, possibility of multiple delivery
+	It's like having two witnesses to an accident
+
+Nested commits: data commit inside of message commit
+	Message commits
+		Only if data commits
+Unfinished work from one participant leads to two phase commit
+
+escrow = hotspot
+With escrow everything is done at the time of the transaction, 
+
+A commit is a snapshot
+	

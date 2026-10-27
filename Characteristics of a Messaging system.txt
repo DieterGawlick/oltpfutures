@@ -1,0 +1,100 @@
+Messages are the more important than you think -- they are most important part of the database
+	Because messages can't be converted into SQL
+	Recognizing that was the secret to the success of the original OLTP/ATM system
+
+Business trip
+	three entities: booking, flights
+	The only thing I know for sure is how I process my messages
+	
+With the other companies, I have a protocol
+ 	- the particular protocol (B2C or B2B) doesn't matter
+	- to understand what communication has taken place
+
+Requires a messaging system that has the characteristics of block chain (e.g. nothing lost)
+	- blockchain has no transactional integrity
+	- messaging has to be a resource manager with blockchain + transactional + workflow
+	- need to understand the state of protocol -- the protocol is a state machine but also defines what the next state is
+
+In transaction
+	- typically short temporally
+	- isolated ACID as you change
+	- workflow is the opposite
+
+Workflow
+	- long running
+	- always extends into the future
+	- "I'm sorry the future has morphed in a way you did not expect"
+
+Microservices are missing this
+	- Microservice's orient around PUT - a binding that's far too strong
+	- Protocols need a serialization
+	- SQL not useful as a serialization: can not communicate between autonomous entities
+		- Unless, for example, converted to JSON
+
+If you get a bill, it's not a table or even a row from a table; a flight plan is not a table or a row; All are more like hierarchy - like (for example) JSON
+
+Data guides tells you the meaning of the data
+	- Meaning has to have a shared meaning -- banks have to translate everything into SWIFT
+	- Not just sending some bits over
+
+Kafka has no transactionality
+
+Ledger, journal, escrow
+
+IMS avoided two phase commit by writing messages to the same journal as the database
+	- single journal eliminates the need for two-phase commit
+
+If your database doesn't understand messaging than you have a problem -- i.e. poor performance
+
+Workflow is very stateful but doesn't talk about states
+	- When a system crashes, you have to know where the system was at the time of crash
+
+After the simplest transaction (moving money), you have to look to see if the transaction succeeded
+
+You can't make recovery transparent -- the solution is to never have to recover, just failover
+
+Messaging has to behave like a resource manager to the participant
+
+Messaging Resource Manager that 
+	- Understands transactions (has to be consistent with the rest of the data -- recovery, restart)
+		- Handled with the ledger, sequence of the ledger was the sequence of commits (the legal sequence)
+		- The time when everything is valid when it is committed, not when it is received
+	- Logging with blockchain characteristics 
+		- Regard the messages as a legal document
+		- If the commit hits a performance issue then it became interesting and the engineering became import
+		- Maxwell's equations have been known for users but we are still finding ways to build better electrical engines but only because we know what and why we've done in the past
+	- Understand Workflow
+		- Different layers
+			- Base: just sending bits over
+		- Next layer establishing a sequence
+			- But is establishing a session with a participant
+			- And says "I know you"
+			- Has a number that represents which message in the sequence
+			- Enables to know the conversation is complete
+			- Allows to request resend and ensure idempotent
+			- Same number, different content/different number, same content
+		- Next layer
+			- States of protocol
+			- On top of the messages: This is the state of the conversation
+			- Add a protocol engine on top of the messages
+			- Can say that message isn't acceptable -- out of order
+			- I place an order, have to get agreement on the order, 
+				- Can't ask about my merchandise until I have an order
+				- Is not a "meaningful question"
+		- The event horizon is NOT at the moment the data is gathered -- it is when that data is converted into information
+
+The messaging system has to go beyond on delivering messages and "only once" delivery
+
+The messaging resource has to establish supervision
+	- Supports, for example, having a response within time period
+
+Database doesn't care what you ask the question -- it just gives information
+	- In queues you have to ask for things that might come (?)
+	- The first message does an update, the second message asks for the results of the update
+	- Skip locked: take the first message that no one is working on...but an earlier message may be aborted
+
+Messages must be tamper resistant
+	- Signed so that tampering can be detected
+	- Imagine a set of measurements on a device -- you want to know that the measurements have been tampered with: They are tamper resistant
+
+More to be understood than performance, do not understand architecture

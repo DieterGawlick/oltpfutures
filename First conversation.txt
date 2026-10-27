@@ -1,0 +1,19 @@
+not fast enough
+not reliable enough
+no end-to-end process
+
+the customer is having a discussion with a bank, not a database
+using messages
+
+ims-dc
+xrf
+lots of reliability right through to the terminal
+
+
+very fast processing, mean-time-to-repair to virtually zero, seamless processing
+escrow, sagas: work together
+
+educated in messaging, workflow
+database as enemy
+
+dealing with emergencies, getting resources in the future, pre-emptive

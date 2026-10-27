@@ -1,0 +1,74 @@
+Do I have all the stuff for a solution
+	- Functionality
+	- Performance
+	- Fitness for purpose
+
+How to introduce the Ledger?
+	The ledger is the history of what we did
+	Two criteria
+		- The activities for the application in the sequence of their commits
+		- Usually includes subledgers (e.g. the bank ledger has the ledgers for the individual accounts)
+
+Two phase commits because we have the ledger and escrow
+
+
+Oracle 23ai
+
+Classical locking
+	Grab resource so no one else can have it
+	Do whatever you are going to do it
+	Release
+	If the data is commutative (all inventory items are interchangeable), solution is simple
+		Hotspots
+		Verify/Change 
+
+Saga
+	The goal is to provide an infrastructure for performing series of activities over time
+		Make it transparent to the developer
+
+	Initially, a saga was one transaction after another
+		If you run into a problem, you do a compensation
+		But, over time, compensation is sometimes impossible 
+			if I go on a trip, complete the first leg and can't do the second leg, I can't undo the first leg
+
+	Sagas evolved by recognizing temporality 
+		A process occurring over time
+			Not one atomic action or series of atomic actions
+			But a series of actions that depend on each other
+			Distributed in time: you did something, you did something later
+		Still message based
+		Transactions vs. saga: 
+			Transactions have no time
+				No future or past: done in one action
+				You can do something before or after but not "in between"
+			Sagas have temporality
+				A future: What we're planning to do in the future
+				A past: What we've done so far in the process
+				Where we are in the process
+
+	Essential where the items in the resource aren't commutative
+		Given a goal, plan the steps in the saga
+			Time-based
+			A schedule
+		Reserve resource for the required period in the schedule
+			But the plan and the requirement for the resource may change
+			Depends on the availability of the resource at the time
+			Depends on the need for the resource when the time comes
+		To reserve means
+			Send a message to Find and hold
+			Response: 
+				I can hold it for x period of time
+				Get a subscription for updates to changes in the resource
+			Repeat for other resources required
+			If all desired reservations for the necessary resources can be made: 
+				Commit the desired reservation (payment)
+				A contract: 
+					One party commits to delivering the resource at the scheduled time
+					Renews or creates the subscription to deliver updates
+
+		New compensation mechanism: a "clean up"
+			To release resources on hold during planning
+			To release resources committed during execution
+			To flag when resources can't be released					
+
+		

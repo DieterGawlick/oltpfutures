@@ -1,0 +1,89 @@
+immediately respond to the message on receipt
+response in 100 milliseconds -- response to message #X
+numbering messages allows the client to check for missing messages
+!!Exactly once!! transmission
+	But keep our messages
+Had to get VTAM to be more relaxed: didn't need an acknowledgement of "message received"
+
+message received
+	find the record
+	update the record
+	update the statistics
+	update the ledger
+send the response message
+
+message received
+	find the record
+	update the account record meta-data
+	update the escrow data
+send the response message
+	update the update the account record from escrow
+	update the statistics
+	update the ledger
+
+three types of main storage database
+	per terminal statistic (traffic today)
+	company-wide statistic
+	ledger
+
+Writing to the journal was the enemy
+	!!log storage write ahead!! coupled with group commit got it down to 1 milliseconds
+Random access retrieving the account was 30 to 50 milliseconds
+
+Reliability doesn't mean that data is written to disk -- it means that the data is recoverable
+	Make the data recoverable (copied to a local shadow journal)
+	 and then write it...eventually (a buffer that could be written)
+
+inserted in the sequence of the commit sequence
+
+XRF
+20 seconds to get the backup system up to processing at the speed of the original (now failed) system
+TPC-A
+
+Queued Messages as tables
+	A message is "something to do"
+	A table was considered a queue if it allowed you in the select, if you don't find what I'm looking for, wait for it
+		Not done with polling 
+	
+create the message on a blockchain
+	then process it...exactly once
+
+Debit/Credit transactions
+	Really, an artificial thing; a convenience
+	More generally, what the bank does updates multiple accounts
+	Which leads to escrow and internal two-phase commit
+
+
+Journal: is not a UI, there for recovery
+Ledger: A UI, there for reporting to various audiences
+Statistics: Various aggregate reporting
+
+If you decide something -- classically write it into ledger (internal doc)
+	But need to send information from the ledger to various audiences
+		What did we today (the bank do today)
+		What has happened to my account
+	For example, to the Customer
+		FIFO: the sequence of COMMIT of the inserts
+		Insert only
+	Fighting over a block
+	Defer the location of the position until commit was made 
+		As a result, the inserts may not be in the order of the transactions
+
+???investigate writing out the log a block at a time???
+		
+But, also, online statistics	
+	For a bank, the balance in the account
+	But also various aggregates
+	Fighting over a section of memory: optimistic escrow (not what it was called at the time)
+	Typically, a running number over the course of a day (reset at midnight)	
+
+Both statistics and ledgers were hotspots and points for contention
+	Need both to know how the company is doing right now and in the past
+
+Escrow falls out of contention over the ledger
+
+Ledger is a UI, at least to the bank/branch office
+
+We're now positioned for extended restart: All the information is presented for failover to the other instance
+	messages, journal
+

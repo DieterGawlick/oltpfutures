@@ -1,0 +1,54 @@
+Article Structure
+
+Abstract:
+Participant and Witness account for a participant in scientific evolution and product development in database management.
+Most are gone (dead or retired): Now is the time to write it down
+
+Initial Focus
+Proper technology for managing inventories (of any kind) in an oltp environment
+from the pov of the only person still active in the field and a witness to the old process
+
+The real problem
+	Not to solve the database problem
+	Instead: solve the user problem
+
+Introduction
+The problem is oltp
+Characteristics
+	Throughput
+	Group commit
+	Fast response
+	Hot spots (sql can't deal with hotspots because it is get/put)
+	
+Microservices still insisting on get/put -- hotspots can't be committed
+at best, SQL inherits serialization from JSON
+Blockchains are the record of the messages
+
+Thinking about it this way: messaging is what's important and everything else falls out of that
+FastPath was the first one that had the right characteristics
+
+Body
+Debit/credit from end-to-end as the archetype for the problem (including auditing, reliability)
+	I have a request on the terminal
+	to communicate
+	to know what I did
+	Mean-Time-To-Recover (which sql doesn't recover) -- but the problem is "no interruption" and mean-time-to-Failover
+The interaction between the user and the system (with references to detail)
+
+Reflection
+Limited solution, the database was correct but the context was lost
+Transaction was a step back
+
+Most cited article on LSM (side effect): accumulate enough changes to write out a block
+The journal was an example of a Log write ahead dataset which was an LSM
+	Change operational characteristics
+	A time series (each independent of each other)
+
+Columnstores for time series data because the data doesn't change much (perhaps a single bit)
+	Supports compressing data 
+	Some time series will have Insufficient activity to fill a segment
+	Use a journal with columnstores to support recovery in conjunction with LSM
+	But you end with a million journals -- how to you combine them into one
+
+Next
+HTPS article: Workflow provides context

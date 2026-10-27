@@ -1,0 +1,29 @@
+lock write ahead dataset
+	Journal records focused on as much information as possible in as little space as possible
+	But writing out larger blocks
+
+With high traffic
+	Blocks fill fast and are written quickly
+	Commit doesn't occur until transaction is recoverable
+	Which doesn't happen until the block is written
+
+Problem occurs with low traffic
+	Not filling blocks "fast enough"
+	Solution: Write out the block before it's complete - log write ahead
+
+Log write ahead (most cited article)
+	Major criteria: Head of the journal to have a low seek/search channel
+			Rest of the blocks to be as compact as possible
+	Ideally, use only one cylinder that the head is already over
+	Seek time is zero (already on the cylinder)
+	Search time is the time to the next block on the cylinder (< 1 millisecond)
+	Effectively converting an online, interactive activity into a batch activity
+		Get the benefits/performance characteristics of batch processing to online
+
+Later evolved into Log Structure Merge Stream (reference, no need to include)
+
+Similar to handling updates to indices in databases
+	If I have 10 indices, I have 10 updates
+	We keep index updates in memory
+		We "correct" the desk from the updates in storage
+	

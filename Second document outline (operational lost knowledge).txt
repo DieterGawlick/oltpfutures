@@ -1,0 +1,25 @@
+: in under 1,000 words
+
+Rule:
+	The application, can't share anything to the outside world (e.g. the client) until it is recoverable
+		You don't send a message to another participant until the data is recoverable
+
+Sagas
+	Planning phase -> secure specific resources required for this specific activity
+		What is available for me activity
+		Put some resources on hold (not transaction because holds go on for too long)
+		Eventually, convert some "on hold" resources to future reservations
+		Release the unreserved "on hold" resources
+
+	Execution phase
+		Consuming the reserved resources (and making them 'consumed resources')
+		Responding to changes in reserved resources: Situational analysis
+			 Re-planning all or part of the saga	
+				Putting future resources on hold
+				Reserving some "on hold" resources
+				Release previously reserved resources
+				Release the unreserved "on hold" resources
+
+	The reserved resources are a "forward chain" and must be mutable
+		The consumed resources are an immutable "backward chain" 
+				

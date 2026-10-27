@@ -1,0 +1,64 @@
+More on messages
+
+What is a protocol:
+	Metadata that provides the meaning of the data
+		Externalizes the process of processing a message
+		Makes explicit the meaning of the data
+	Hierarchical data structures provide the metadata for business use cases
+		Also raid5 use cases, SQL use cases
+	Part of a namespace
+
+Between autonomous units
+	Which may be within the same organization
+
+In a model of an airplane
+	the body
+		the components (wings, engines)
+			the structure of the engine
+			sensors
+
+Once a sensor is introduced, we have a time series
+	What is the status of each item at any point in the time series
+	Each entry in the journal is a message 
+
+What would a properly designed time series look like?
+	Sequenced by receipt date 
+		Within a conversation between two partners
+	Each entry has a natural id (would a guid?)
+	A copy of the graph after the commits are made
+		Probably just the delta of the changes
+	A copy of the response
+	
+The message
+	what is to be done
+	who is to do it
+	what is the deadline
+
+While we have microservices
+	We need to see all the messages between all the services to (for example) determine why a process is "stuck"
+	A central store for all messages? A separate machine that all messages go through? (single point of failure)
+
+The message number is really just the count of the messages in this conversation
+	Each partner needed to keep track of the last message received
+		Can request any message not received
+		Ignore any "re-sent" message already committed (marked as recoverable)
+	Each partner needs a copy of each message sent not yet acknowledged as committed (marked as recoverable) by the partner
+		Keeping "too many" messages not a problem -- the partner will ignore "re-sent" messages
+		Not keep "enough" message so can't re-send if requested
+		Simplest solution: keep every message in a conversation and discard only when conversation is over
+
+Even if, in the event of a failure, during recovery a transaction is discarded
+	The crashing partner will send a "didn't process" process to other partner
+	The other partner can re-submit the message(s) to finish the transaction
+		Invisible to the user
+
+But we need to recognize that there may need to be a correction
+	Which needs the ability to forward chain -- which a journal doesn't include
+
+Each message has a deadline and the time series can be ordered by the deadline
+	
+But a hierarchical database is just a simplified graph database
+	Where each item can have only one person
+
+Messages document the transaction
+	A queue ordered by a time series 

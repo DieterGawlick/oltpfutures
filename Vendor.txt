@@ -1,0 +1,10 @@
+Vendor:
+	How does the grid orient: 
+		Finance: virtualization, real-time, virtual columns (50 columns X 20K records)
+		Medical: custom fields, patient data, obfuscating personal datas -- data driven health care is a thing
+				https://www.google.com/search?q=how+do+medical+professionals+using+data+grids+that%27s+unique+to+them
+		Data scientists: conditional formatting, anomaly detection, outliers
+		Admin: change user from one role to another, who's in what role, and what permissions come with that
+		Managers: summarization, sparklines, drill down
+
+	Copy Mandy & Eva

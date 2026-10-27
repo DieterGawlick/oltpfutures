@@ -1,0 +1,104 @@
+Let's talk about structuring this:
+
+We outline the problem
+	- Fastpath story
+		- inventory story
+	- once you have the inventory, using it day-to-day (naive, the simpler -- but wrong -- problem)
+	- We give the data to the computers and think we can still query the data
+	- we need to give the data to the computer with a model that the computer understands
+		- 99.9% won't do
+	- second art:
+		- computers don't have situational analysis (we're pretty good at it -- can consider situational analysis as the growth of situational analysis)
+		- We don't have enough temporality (evolution/tracking change): no meaningful language for discussing evolution -- e.g. SQL
+			- algebra but no calculus
+	- LSM: load sharing module (most referenced paper) or Load/Store Multiple instructions
+		- as important as write ahead buffer
+	- One of the most difficult problems in inventory is debit/credit against inventory
+		- eventual inventory not available to banking
+		- can not afford a mistake: system crashes, missed messages, consistency between atm and database must be perfect
+	- CICS messed it up
+		- machine-to-machine two phase commit and can't be done between two banks because violates consistency
+
+Elements of the technical solution
+	- Adding functionality
+	- Parallel update through escrow
+	- Hotspots anything under 10 hours?
+	- What did we learn in hindsight?
+		- 20 to 40 years later
+		- What is missing
+		- Feedback to reflect back on inventory
+	- Ledger moves from being a side effect to the being the point
+		- The database is a very specific view: what has been committed from the ledger
+	- In the implementation, escrow handles contention
+		- one value is the committed value
+		- one value is the "in process"
+		- I have $100 in the account, and put $60 in escrow (and if you want to know why you can look in the ledge)
+		- The escrow stored on the account
+		- Also handles "send the message tomorrow: puts the money in escrow"
+			- should (but not always) the balance of the amount recorded on the account
+	- Keeping stuff in memory provides random access memory
+	- Never got a good application server/communication
+	- All you need is "exactly once" behavior
+		- Preferred "name: value" but was comma delimited value
+		- Switch to object type
+	- Message protocols implement "exactly once"
+	- Fastpath (focus)
+		- We could finally do inventory operations at the enterprise level
+		- We had an end-to-end behavior (not perfect)
+		- Demonstrated through the recovery process
+		- extended recovery facility critical: back up in seconds and in less time than the longest response time 
+			- Was two minutes before user would say "it's not working"
+			- Recovery was one minute
+		- We developed the new technology and is being forgotten
+		- Local computers in French steel mills had achieved this (back up in two minutes or it was a hard stop): Back up as if nothing had happened
+			- In Japan a failure, the bank chairmen had to go on TV and apologize
+	- The initial end user was not the ATM but the French local process computer
+	- Moving money to another bank (between autonomous entities that must be independent) is NOT two-phase commit/transaction
+	- Treat everything as if it were a bank account
+	- Microservice model as if it were Costco
+		- 500 in the bin
+		- Take all, put 495, put 5 in the cart
+		- Put up a sign that says that you can't use this until the customer checks out
+		- And, of course, at any time a user may say "Forget about it" and leave their cart
+		- Users do processes with multiple steps and we need to manage those multiple steps
+	- Had to add (for performance)
+		- Group commit
+			- Intersection with a lot of traffic (not an issue with small traffic or not concerned about performance)
+			- Group commits moves to putting in stop lights rather than stop signs to let large groups through)
+			- Focus on throughput but improves response time
+			- Single commit journaling lock is stop sign
+			- App says commit and now you wait for the application to return
+				- Check if all the records have been journaled
+				- Can't be written because the commit isn't done (written to the disk)
+				- Even if the system crashes because it's written to the journal
+				- Depends on Lock Write Ahead good for 5 writes per second with the I/O system
+				- 50 writes per second overloaded the I/O
+				- Built the journal records with multiple commit points
+				- Write all the journal records at once
+				- Don't hold up the commit to disk for the journal
+				- Want to have a clear cylinder to avoid fragmentation
+				- Biggest problem in the journal is speed of the write at the "tip of the journal" -- all delay
+			- Lock (Log?) Write ahead dataset
+				- Seek is find the right cylinder; search is find the right place in the cylinder
+				- Preformatted space
+				- A "write any" command - just write wherever the head is 
+				- From 30 milliseconds to 3 milliseconds
+				- Write to the journal and the "other" journal
+			- What is the optimal level of grouping
+			- Write the buffer, not the individual records
+		- Fast commit (even if the log write hasn't been done, if the program has access to the memory, we can consider it be done -- in the memory recovery)
+			- Index update
+			- This has been forgotten - a very simple thing but lots of engineering behind
+			- Reflect on the impact on fast restart
+		- Two phase commit
+	- !!!Not really "no failure" but "no visible failure" and just done by the system!!!
+		
+Key questions:
+	Point out that the inventory problem is the fundamental problem
+	What did we have to solve
+	What did we do
+	What is left to do
+
+Next
+	transactions are sufficient
+	Processes are what we need to mention

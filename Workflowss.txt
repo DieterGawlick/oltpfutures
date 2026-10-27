@@ -1,0 +1,55 @@
+Not participants: autonomous entities communicating through a protocol with messages
+
+Workflows
+	SQL has no linearization/serialization
+	If we want to communicate we must agree on the linearization/serialization
+	Independent views of the data for each participant
+	
+In SQL can not request a hierarchical child
+	It's always a collection of rows, the relation has no information except what's provided by meta data (the name)
+
+Hierarchy is a steady collection -- a graph
+
+The message system needs to understand the serialization and protocol
+
+Serialization is the enemy of high scalability
+	FastPath introduced escrow
+	serialization and FastPath not compatible because serialization implies working on nodes, one after another
+	goal: bundle/batch transactions to get to the final result
+	lock/write ahead used 10 milliseconds
+
+Protocol: Towards a formalized higher-level protocol
+	At a higher level than message format: implies a workflow
+	How is that higher level expressed?
+	Two workflows: one for the buyer and one for the provider
+	The protocol includes the kind of requests that can be made and the responses that can be made
+	Plus the current state of the conversation: The context of the conversation
+	I ask a question and get an initial answer of "don't know" and then -- two years later -- "Here's your answer"
+	The ability to ask "I'd like to extend my vacation by day"
+	Each user has a state while the conversation has a context
+
+At this point in time this is what we can do
+	A termination point
+	The next thing
+
+We need immutability
+	For time series
+	For message (once a message is sent, it can be changed -- may change its status: sent, not received; received, not processed; processed)
+	For event processing - Subscribing required (otherwise you end up polling), and then messages
+
+Event processing
+	Event processing: I subscribe to indicate what events I'm interested in: subscribe-to-publish
+	This is the event I'm interested in (and, perhaps, if it stays in that state for a long period of time)
+	Snapshot required in order to repeat the message -- the question that generates the subscription determines the quality of the event, can replay what would have happened with a different subscription query
+	Event can have a time criticality: milliseconds or seconds or hours -- allows batching events for operational purposes (every event is a notification and, therefore, an interruption) 
+	An event is a notification 
+	--> 	A message is a way to communicate data
+		An event is a data point (an instance of a pattern)
+
+A model: I'd like to be informed when the remaining lifecycle of my machinery is just two days
+	 
+CQN Oracle: situation awareness (looks like an index)
+
+What database gets wrong
+	Our view was limited
+	And we dropped a lot along the way

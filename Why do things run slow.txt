@@ -1,0 +1,51 @@
+Why do things run slow
+	Trips to the database
+	Process switches
+
+CICS 
+	Why commit is expensive -> moved to a privileged process step
+			wait for the logwriteahead
+			Includes a process switch (very expensive)
+				Consumes a lot of cycles (300+) and cache invalidation
+			Returning to the less-privileged state
+			More cache invalidation to ensure that privileged data is no longer available
+			Gets the natural id
+			Journals
+			Sends the response message
+			Probably 1,000 instructions
+	But the application doesn't have to wait
+			All the information the transaction needs is in the transaction (in the buffer)
+	Can start processing the next message
+	Which may result in a commit
+	But the previous (very expensive) commit is still running
+			Stacks up the next process
+	
+Answer: Remove the process switch
+
+Main process loads the data to be written to an available buffer
+	Marks the buffer as unavailable
+Tells an SRB to execute, passing a pointer to the buffer
+	The SRB schedules the write, decides how many processes to run i1n parallel, etc.
+	Ensure that there lots of SRBs
+SRB writes the buffer -- logwriteahead
+	Makes the buffer available
+
+
+Time series
+	Take the journal
+	Convert into a time series (a materialized view) with critical data
+		A highly compressed journal
+	Anything that does go into the time series, goes off to the side to be written out later
+	Need to wait until the time series is complete
+		For example, the application could abort the process
+	When the application commits -- the time series is ready to be written
+		No more data to come		
+
+Why does performance not degrade as the number of transactions increases
+As the number of transactions increases all that happens is 
+	The number of unavailable buffers increases
+	The number of requests passed to the scheduler increases
+	As the number of transactions increase all that happens is the number of separate writes decreases
+		Instead, we write larger blocks continuously
+	
+	

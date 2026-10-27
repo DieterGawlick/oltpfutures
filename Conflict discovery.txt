@@ -1,0 +1,38 @@
+Conflict discovery
+	No locking
+	First find out if there is locking
+		Randomize the lock name - hash anchor
+		If hash anchor empty, create it
+		If not, we have a conflict
+
+LWA (precursor to LSM)
+
+Scheduling
+	Transaction takes time
+	If transaction takes 20 milliseconds - maximum of 50 per second
+	If you want 100 transactions per second
+		Serialization (single thread) out of the question		
+
+External systems
+	O/S
+		Data space: 0 to two gigabyte
+		File system: The file was the data space
+			A set of blocks (as is typical)
+			Moved the data from the buffer to the disk system
+			Translate block address to data space address
+		Each buffer had 40 byte header with the block address that the O/S converted into a disk address
+		Writing consisted of pointing the scheduler to the 40 byte block
+		IMS was a trusted system, a shared space with the O/S
+			Responsible for managing the blocks
+			Notifying the scheduler that there are blocks to write out
+		"Gathered write"
+	
+Now into section 4		
+		Commit decoupled the system from the process -- the actual I/O was independent of the process
+		Rather than writing out transactions, the O/S wrote out blocks and notify IMS when we're done so IMS could unblock
+		Lock write ahead matters hear -- made it recoverable
+		
+Online Utilities
+	
+	
+		

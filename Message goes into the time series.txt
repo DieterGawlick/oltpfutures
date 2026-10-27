@@ -1,0 +1,18 @@
+Message goes into the time series
+	No one touches the message until hits the time series
+Message goes out after being added to the time series
+	The partner gets a "certified copy"
+
+Everybody has all the information
+
+Each partner uses its own domain specific language 
+	Which can be included in the messages
+
+The application helps the user 
+	Pick the right UDT
+	Provide the right parameters to the UDT
+	The UDT triggers/creates the DSL to perform the activity
+	Returns a list of potential subscriptions to the client
+
+
+

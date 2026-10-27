@@ -1,0 +1,6 @@
+Handling conflicts during parallel processing
+ 
+Randomize transaction id to some anchor point
+If there is nothing at that point, there is no conflict
+If there is something at that point, create a linked list of conflicted items and invoke conflict resolution
+

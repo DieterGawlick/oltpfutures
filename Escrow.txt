@@ -1,0 +1,113 @@
+Escrow is something in the future
+	Not something now
+	A reservation
+
+I want a seat on the flight
+	Flight doesn't leave for two months
+	I will consume it when the flight takes off
+
+At a store, when you put a product in your cart
+	You don't own it yet
+	But no one else can have it
+	You abandon the cart
+		Problem: Product not available to anyone else until returned
+
+Escrow: You have reserved $100
+	No longer available in the account
+	Held in limbo pending the end of the activity
+	Not delivered to the other party
+	The escrow is "in limbo" until the end of the activity
+		When the intent of putting the money in escrow is achieved
+		Do you get something back (intent achieved)?
+		Do you get your money back (intent not achieved)?
+
+Do I have all the stuff for a solution
+	- Functionality
+	- Performance
+	- Fitness for purpose
+
+How to introduce the Ledger?
+	The ledger is the history of what we did
+	Two criteria
+		- The activities for the application in the sequence of their commits
+		- Usually includes subledgers (e.g. the bank ledger has the ledgers for the individual accounts)
+
+Two phase commits because we have the ledger and escrow
+
+Classical locking
+	Grab resource so no one else can have it
+	Do whatever you are going to do it
+	Release
+	If the data is commutative (all inventory items are interchangeable), solution is simple
+		Hotspots
+		Verify/Change 
+
+Justification for Escrow
+
+For online statistics/online aggregates (e.g. cash flow in individual accounts, cash flow for the bank): hot spots
+Update these aggregates with each transaction 
+	If you are doing a lock, read current value, (modify), update, release lock
+		Which would limit you to 10 transactions per second
+So, instead, move to just changing the cumulative value
+	Ignore the sequence of transactions and just change the cumulative value
+
+This is key: Works just as well for quantity on hand for !!any!! inventory
+	Provided all the items in that inventory are identical)
+		Wouldn't work, for example, for seats on a plane unless you don't assign seats
+		Does work for a bank account where all money looks alike
+So the Validate and Update single operation: 
+	Got up to 100 transactions per second on a single record
+
+Airline seats: Optimistic Escrow
+	Can I complete this transaction right now?
+		At the time the user looks at the seat
+	Then I assume I can do it later 
+		When the user commits to the seat
+	But, things may have changed by the time the user commits
+		May not be possible to satisfy the user's request
+
+Airline seats: Pessimistic Escrow
+
+Atomicity was essential for recovery: In the event of a failure, after failover, either every step in the transaction had to be completed or, for incomplete transactions, all of the transaction’s steps had be discarded.. 
+
+synchronizing changes in the time series that made up the relevant journals was a significant challenge
+
+
+Debit/Credit transactions are, fundamentally, just an aspect of inventory management
+	More generally, what the bank does updates multiple accounts
+	Which leads to escrow and internal two-phase commit
+
+
+Journal: is not a UI, there for recovery
+Ledger: A UI, there for reporting to various audiences
+Statistics: Various aggregate reporting
+
+If you decide something -- classically write it into ledger (internal doc)
+	But need to send information from the ledger to various audiences
+		What did we today (the bank do today)
+		What has happened to my account
+	For example, to the Customer
+		FIFO: the sequence of COMMIT of the inserts
+		Insert only
+	Fighting over a block
+	Defer the location of the position until commit was made 
+		As a result, the inserts may not be in the order of the transactions
+
+???investigate writing out the log a block at a time???
+		
+But, also, online statistics	
+	For a bank, the balance in the account
+	But also various aggregates
+	Fighting over a section of memory: optimistic escrow (not what it was called at the time)
+	Typically, a running number over the course of a day (reset at midnight)	
+
+Both statistics and ledgers were hotspots and points for contention
+	Need both to know how the company is doing right now and in the past
+
+Escrow falls out of contention over the ledger
+
+Ledger is a UI, at least to the bank/branch office
+
+We're now positioned for extended restart: All the information is presented for failover to the other instance
+	messages, journal
+

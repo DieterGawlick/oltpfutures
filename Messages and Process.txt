@@ -1,0 +1,66 @@
+We have 
+	Data that represents our current state: our resources
+	Data that needs to be acted on: Messages
+
+Messaging is the essential component
+	All messages are immutable from the moment they are sent
+		Immutable means "tamper resistant" (not "tamper proof") 
+			Any change is flagged and obvious (not tamper resistant)
+	The message is saved as the next path of an immutable time series
+		Blockchains provide a mechanism for storing the time series
+	Only then is the message acted on 
+	A message is a database entry that needs attention -- that needs to be processed
+		An unprocessed message has the attention index
+	In a B2B transaction what the partners discuss are the messages
+		And, of course, the impact of the messages on the partners resources
+
+The protocol has to establish what the partners agree on -- what data means the same to both parties
+	Both partners have a shared understanding on what the data structures in the message mean	
+		Internally, each partner has its own understanding of what the data means	
+	Data structures in business are hierarchical
+		Our focus is on the top level
+		Moves down through the detail
+
+From the initial request from one partner to the money dispensed by the other partner
+	If everything is recoverable than everything is auditable
+	The application not only continues running but can report on its failure
+
+Messages are pieces that direct each partner's workflow
+	a set of action steps
+	each step has to be recoverable (which is our definition of transaction)
+	each message for each step must be delivered exactly one
+
+Workflows happen over time
+	A transaction is a moment in time
+		The resources at the current moment
+		The resources of an expected future (escrow)
+	Escrow in transactions
+		Escrow gives all the partners the opportunity to make sure the transaction is valid
+		Determine the state of the current resources
+	That future may be disrupted by a new message
+		Escrow is discarded and partners return to their starting position
+
+Transaction at the core
+	Messaging over top to connect the players
+
+The bank has custody/ownership of your money -- the resource being managed by the partners
+	Once the bank gives you give the cash, the bank transfers custody/ownership from the bank to you
+
+
+What did we learn about messages?
+	Are visible to both partners
+	Are critical 
+	Must be retained
+	Must be visible
+
+What did we learn about workflows?
+	Are internal to the partner
+		Invisible and immaterial to the other partner
+	Are tied together through immutable messages
+
+In today's terminology:
+	A process can be represented as traversing a graph
+		IMS provides the foundation for a recoverable process
+		Transaction are nodes
+		Messages are the edges that join the nodes
+	Since the messages are immutable, we can "re-transverse" through the graph at any time

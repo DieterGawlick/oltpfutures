@@ -1,0 +1,78 @@
+relationship of the journal (tech) and the ledger (business)
+
+First article (6 pages)===================================================
+Abstract
+
+Introduction
+
+Storyline
+	Getting started with OLTP
+	Operational characteristics
+	Solutions
+		Database 
+			classic Hierarchal database and why it makes sense (dominant model: COBOL assumed hierarchy)
+			could deal with recovery, parallelism, throughput (locking)
+				    with errors
+			Main memory msdbs
+			Highly	dedbs
+			Hotspots (e.g. state of the teller information)
+				5 minute rule in 1980: if you don't use data in 5 minutes, rule (assume 2 minute rule)
+				
+		Users
+			CICS model
+			What other models
+			Statistics (used every second so even the 2 minute rule -- maintained in real time)
+				Terminal local data, no locks ("frequently used data")
+				Global data, locks ("frequently used data", locks required, verify/change)
+
+		Reconciling the two
+			Reduce variability to position for optimization
+			Lock Writeahead
+			Why messages in transactions
+				Records are there to remember
+				Messages are there to remember and do something
+				All in one journal makes for exactly once delivery and reduces commits
+				Most errors occur when messaging and database are out of sync
+						And if messages not a transaction, they are not recoverable
+						
+			Integrating messages with transaction
+
+			Varieties of concurrency control
+				IMS: two phase which moved to
+				One transaction: FastPath				
+				CICS as a dialog transaction
+						Give me the next message to process
+					Leads to escrow
+			IMS/FastPath
+				doesn't do a lock -- checks for conflicts
+				hashes to a number: the block where th	e record was
+				If there was a conflict (and there usually wasn't), cascade down to the attribute level
+					is there a conflict on the individual attribute/property/column? If not, update
+				If there's still a conflict, throw it deadlock detection
+					This is where locks needed to be acquired (but often no existing lock)
+				If there is a lock, then get a lock for yourself or on behalf of others
+			A transaction commit makes it visible the outside world (the journal and the messaging target)
+				Lock Write Ahead
+					Ensures the record is written to the journal 
+						Is now recoverable in the event of the failure
+				Send the staged message
+			If the system crashed, you could keep going thanks to XRF
+
+=====================
+
+Details
+	TPC-A 
+	Messaging interface
+	TPC-A for database service
+	Description of the data structures
+
+When the transaction begins there is no structure
+In the application no support - handled by infrastructure
+
+Database management: transactions in IMF document
+	Defines the data structure (describe)
+	Reliability of transaction controls (just resend)
+Locking
+	Did not take the classical approach
+Several levels
+How do we do the locking?

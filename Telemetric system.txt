@@ -1,0 +1,20 @@
+Telemetric system
+
+Requires situational awareness
+	- I see something I need to worry about
+		Abnormal condition
+		Something surprising/unexpected
+	- Assume that you don't know what to do
+	- "information discovery": information of interest to me
+		- Ask questions and get real (though possibly incorrect) answers
+	- As opposed to google from two years ago -- you got a reference to where there might be answer
+	- Now we get an answer with context in an language in the user understands
+	- "information discovery" has begun
+	- Either
+		Have never found the situation before: hard work begins
+		Have found it before
+			Here is how people have solved this in the past
+	- Not arbitrary information, but actually useful
+
+What are the technical challenges
+	???

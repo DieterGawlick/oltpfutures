@@ -1,0 +1,96 @@
+Debit/Credit transactions
+	Really, an artificial thing; a convenience
+	What the bank needs is updates to various accounts
+		Leads to escrow and internal two-phase commit
+
+
+Journal: is not a UI, there for recovery
+Ledger: A UI, there for reporting to various audiences
+Statistics: Various aggregate reporting
+
+If you decide something -- classically write it into ledger (internal doc)
+	But need to send information from the ledger to various audiences
+		What did we today (the bank do today)
+		What has happened to my account
+	For example, to the Customer
+		FIFO: the sequence of COMMIT of the inserts
+		Insert only
+	Fighting over a block
+	Defer the location of the position until commit was made 
+		As a result, the inserts may not be in the order of the transactions
+
+	
+But, also, online statistics	
+	For a bank, the balance in the account
+	But also various aggregates
+	Fighting over a section of memory: optimistic escrow (not what it was called at the time)
+	Typically, a running number over the course of a day (reset at midnight)	
+
+Both statistics and ledgers were hotspots and points for contention
+	Need both to know how the company is doing right now and in the past
+
+Escrow falls out of contention over the ledger
+
+Ledger is a UI, at least to the bank/branch office
+
+We're now positioned for extended restart: All the information is presented for failover to the other instance
+	messages, journal
+
+
+XRF
+
+Localize failure as much as zero
+Hardware was typically debugged
+Reference messaging numbers
+
+local failure
+	if a program fails, only recover the transaction
+	did? the computer survive
+	Most errors are timing errors (something unforeseen)
+		What is the cost of a back up system?
+		What is the cost of a failure
+	Tandem was terrible: two copies of everything to restart and synchronize
+
+
+
+a global failure
+	if a disk fails, only recover the disk
+	usual answer: recover the database as fast as possible
+		takes far too long
+	If you have a 50,000 files (terminals) and it takes a second to open (can't be done in parallel) -- 12 hours
+	With XRF, the right answer was to have another, backup system "ready to take over"
+		A shared database between the primary and backup system
+		The primary system had exclusive locks on everything
+		The backup system could only listen but could read the journal and was aware of all of the locks
+	The backup system looked at the changes and copied the system
+	Backup system consumed less than 5% of the resources	
+
+On a crash
+	The backup system took over
+	The primary system now could only wash
+	The backup system had the entire control structure and file system (terminals)
+	No database recovery -- the backup merely took over updates in the shared data
+	The backup needed to recover only currently locked rows
+		Immediate recovery of any records in conflict (records that were in the process at the time of failure)
+		Recovery of the rest could happen in background
+	20 seconds to system full operating, invisible to user/clients/operator
+
+**Messaging**
+	Terminal sent a numbered message that the system didn't receive because it was dying
+	On recovery, the terminal was already open, sent a short verify message with last message received
+		Got back either "Here are the messages I've sent you haven't received" or 
+		"These are the messages you sent that I missed" or
+		"We're on the same page"
+	
+	
+
+**Reference Areas**
+	Replicated up to seven time
+
+MTTR: practically zero (less time than a typical transaction: "speed of life")
+
+At the time, recovery time was hours
+	Even shutting down the system took forever
+	Restarting, reconnecting terminal
+
+For hard errors, had to have multiple implementation

@@ -1,0 +1,69 @@
+A journal system is a clustered time series
+
+A time series reduces the ability to cluster
+
+Messaging queues are time series
+	Pass an index to a position in the queue with an attention index
+	Attention index
+		which messages need attention
+			must be processed
+			must be processed in a specific way
+		give it to the entity that can process the message
+
+The messages are sensitive data, communicated to the outside world, must be remembered, require something to be done
+	Without storing messages, reliability is broken, no support for users to recover
+
+Systems need an escape mechanism to flag messages as "I can't process this": called an 'autonomous message'
+
+Messages -- communication between autonomous entities using an agreed protocol -- are what matters in B2*. The inventory management systems are just the tools (one tool?) for dealing with messages.
+
+RAID - developed initially with XRF and then re-developed by Berkley
+  - extremely high throughput
+  with
+  - extremely high reliability
+Not great for processing large amounts of data for analytical data
+
+	The system is going to fail
+	Always be preparing for failure
+	How IBM differed from Tandom in recovery
+
+Best place to use: Time Series
+
+"temperature of a dataset": How intensively is this dataset used in this application
+
+80/20 rule isn't true for data -- it's really 99.96/0.04
+So move that 1% to main memory chips with a battery backup
+	speed goes up by 30%
+        reliability goes up by 40%
+The trick is to find the .04%
+
+The ledger gives me the history/growth (the evolution) of the business from the account up through the branch to the business as a whole. The ledger is, therefore, the basis of management.
+
+Think of a dataset as points in an n-dimensional space
+A query describes a subspace
+A subscription is a query 
+	- To be notified if something enters the subspace
+
+When a message comes in, what subscription is interested in this message?
+    The subscription is the data and the message is the query
+
+
+A journal system is a clustered time series
+
+A time series reduces the ability to cluster
+
+Messaging queues are time series
+	Pass an index to a position in the queue with an attention index
+	Attention index
+		which messages need attention
+			must be processed
+			must be processed in a specific way
+		give it to the entity that can process the message
+
+The messages are sensitive data, communicated to the outside world, must be remembered, require something to be done
+	Without storing messages, reliability is broken, no support for users to recover
+
+Systems need an escape mechanism to flag messages as "I can't process this": called an 'autonomous message'
+
+Messages -- communication between autonomous entities using an agreed protocol -- are what matters in B2*. The inventory management systems are just the tools (one tool?) for dealing with messages.
+	

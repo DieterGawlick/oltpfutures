@@ -1,0 +1,68 @@
+The most important
+	1 Whatever we do with AI et. al
+		- The real foundation is inventory management
+		- If you don't know what things are going on in the world
+
+	2. This foundation is done, been created, has been improved
+
+	3. Where do we go from here
+		- Distributed transaction didn't work. Why?
+		- Temporality
+		- Microservices don't work
+		- Have to embrace the all the data
+		- Have to manage microservices: what we communicated and when is more important than anything
+			E.g. in a legal dispute it is what was communicated between parties and when
+
+For example, SQL was a terrible detour
+	- Most structures are hierarchical
+	- BOM of material can not be represented
+	- Schema, comma-delimited, named values
+	- Right answer is a network, with a view into it that is a hierarchy
+	- BOM in a network and a hierarchy
+
+JSON as the inheritor of COBOL's data structure
+
+**Our goal is to not just to report on this but reflect and suggest where we can do**
+
+Schema first vs. Data first
+
+In JSON !!data guides!! to find similar data items
+
+We have mandatory and non-mandatory 
+
+COD is nice: Commit process, then performance, reliability
+	Performance --> group commit, fast comment, two-phase commit (parallelism)
+
+In SQL, it's all about normalization (computer science), 
+	in the real world it's all about clustering (engineering)
+
+relational systems never achieved the reliability of hierarchical because no message system
+	- Messages are a change in time
+
+Oracle: FlexFields!!!
+
+JSON
+
+For a specific model: Hierarchy
+For more flexible: Network
+Complete flexibility: relational...but still no bill-of-material
+
+The plane has a maintenance schedule
+Any particular plane has a maintenance history
+
+Solid data management is essential
+
+Relational is too simple, hierarchy is also too simple
+Clustering: the row in the relational table
+
+In JSON, clustering is the collection
+
+Humans have a view
+
+A relational database can not represent a bill
+
+Oracle has a duality view: JSON on top of the relational table
+
+Messaging: SQL get/put
+	   What the world needs is get/find/hold	
+

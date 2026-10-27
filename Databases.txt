@@ -1,0 +1,36 @@
+Main-Storage Data Bases (MSDBs) 2
+3. Data-Entry Data Bases (DEDRs) 3
+4. DEDB Sequential Dependents
+
+the msdbs is the application journal (not the recovery or system journal) and behaves like a ledger.
+Key characteristic: 
+	In the order of the commit of the inserts
+	Nothing can be deleted by the application
+	Form an simple chart (in database terms)
+	MSEDBS could be used for (100 transactions a second) on a single chart
+		Danger with a ledger: hotspots
+		Lead to the two phase commit
+		At the top of the commit either didn't know the outcome of the escrow
+			or didn't know where the record was
+	Ledger function -- this is the commit
+	The commit function was an extension of the journal (very small: no context information, just the after image)
+	Always refer to "two phase commit" as the "local two phase commit"
+	Sequential dependence and the area are the important things 
+		Gives you higher reliability: disk errors only takes out an area
+		Areas are independent of each other
+		Replication of areas
+	Batch jobs impact performance which impacts reliability
+		Areas implemented 
+	Main storage database 
+	get/put can not deal with hotspots
+
+Structure
+	tcpa basic debit
+	Extended by messaging
+		Transactions
+	Hotspot processing
+		Time you can keep a lock
+	Sagas
+	Conclusion: These principles apply to all inventory systems that are highly reliable
+	
+Later on: We can discuss process management

@@ -1,0 +1,34 @@
+Batch vs. online processing
+	with batch: you can always redo it
+	with online: you can't -- at best, you can discard it. No "half-way" done.
+		In the event of a crash, you need to know which transactions were complete, which were "completable", and which must be discarded. This was the toughest problem and the problem that generated the most innovation
+
+When querying the system (auditing, tracking) the system can only tell you what it knows. Reporting in banking is, inherently, around a time series...and won't be right in a distributed system. Snapshots, if taken from a local system journal (which is a time series) has to be reconciled against the other local journals. Because of timing issues, that won't be completely accurate. To get completely accurate reporting, you need a global snapshot that integrates the data from all journals which requires centralized messaging to resolve timing issues.
+
+In a transaction, we can distinguish between what's "Inside" the transaction: whatever is held in memory; "Outside", on the other, includes the user, the journal, and the hard disk. The user isn't notified and the hard disk updated until the journal is updated -- i.e. only after the transaction is recoverable: "The journal has to know what's to be done before the transaction can be said to be completed and the user notified". In the journal, there is a before image (the state you will return to after a failure) and the after image (what is to be communicated to the user and written to the hard disk).
+
+The process
+	User sends a request (a message)
+	The message is activated
+	We do the updates that the message requires
+	If all complete and are recoverable, we notify the user of success
+		If otherwise, we notify the user of failure/try again
+
+TP-Light: messages are not part of the transaction/db/journal -- not visible to the db. If communication is lost, the db no longer has access to the message (doesn't know what was to be done, can't determine what is left undone/incomplete)
+TP-Heavy: message are part of the transaction/db/journal -- are visible to the process. Messages are recoverable data structures (XRF) 
+TP-Light is inherently unreliable in the face of failure; TP-Heavy can be reliable even when failure occurs.
+
+The db can always request any message lost (in transmission/due to failure) to be resent from the client.
+The process:
+	Message in
+		Hold something (escrow)
+			Not sure if we're going to be able to complete this process (the functional equivalent of saying "Put it on hold/reserve it) -- "escrow"
+		Update something/clear escrow
+		Record in journal
+	Message out
+
+Escrow can be generalized from money in a banking system to any kind of inventory in any system. One feature of money is that all $1 bills look alike -- not true of all inventory management (not true of seats on a plane, for example). The first $5 taken from an account into escrow looks exactly like the next $5 taken from the account. The first seat on the aisle is not the same as the second seat in.
+
+Subscription vs. polling: The need to take action as things change (what if the flight is cancelled). Subscription supports a process. !!!Evolution from transaction to processing!!!
+
+But, note, withdrawing money from an account the verify/change atomic action ensures that if money has been removed by "some other" transaction and the account no longer has enough to cover escrow, the verify/change fails.

@@ -1,0 +1,25 @@
+IMS was missing process management/workflow 
+	Escrow was there to handle keep statistics up to date
+	Not in the sense of "reserving money to be used later in the transaction"
+
+XRF hides availability -- from the user and the programmer
+With XRF, availability becomes part of the infrastructure
+
+But transactions are too simple
+	When you have autonomous entities talking to each other: Saga --> time series
+		Which brings us to Microservices, which are dependent on messaging
+			NOT fire-and-forget 
+			Always a protocol
+			Messages express the protocol
+			Messages are the intent of the communication, not a side effect
+			Something that is expected to be read/acted on at
+		Messages must be auditable and immutable
+			Must be placed in a place where they can't be changed
+			In a time series as a record
+			A new type of index: the attention index -- this message must be acted on
+		The attention index forms the schedule for managing processing
+			Client: "I would like a hundred dollars"
+			Bank: 	"I can give you a hundred dollars"
+			    	Makes that recoverable
+				"Here's your hundred dollars"
+

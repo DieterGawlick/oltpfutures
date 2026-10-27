@@ -1,0 +1,50 @@
+Escrow is something in the future
+	Not something now
+	A reservation
+
+I want a seat on the flight
+	Flight doesn't leave for two months
+	I will consume it when the flight takes off
+
+At a store, when you put a product in your cart
+	You don't own it yet
+	But no one else can have it
+	You abandon the cart
+		Problem: Product not available to anyone else until returned
+
+Escrow: You have reserved $100
+	No longer available in the account
+	Held in limbo pending the end of the activity
+	Not delivered to the other party
+	The escrow is "in limbo" until the end of the activity
+		When the intent of putting the money in escrow is achieved
+		Do you get something back (intent achieved)?
+		Do you get your money back (intent not achieved)?
+
+
+Justification for Escrow
+
+For online statistics/online aggregates (e.g. cash flow in individual accounts, cash flow for the bank): hot spots
+Update these aggregates with each transaction 
+	If you are doing a lock, read current value, (modify), update, release lock
+		Which would limit you to 10 transactions per second
+So, instead, move to just changing the cumulative value
+	Ignore the sequence of transactions and just change the cumulative value
+
+This is key: Works just as well for quantity on hand for !!any!! inventory
+	Provided all the items in that inventory are identical)
+		Wouldn't work, for example, for seats on a plane unless you don't assign seats
+		Does work for a bank account where all money looks alike
+So the Validate and Update single operation: 
+	Got up to 100 transactions per second on a single record
+
+Airline seats: Optimistic Escrow
+	Can I complete this transaction right now?
+		At the time the user looks at the seat
+	Then I assume I can do it later 
+		When the user commits to the seat
+	But, things may have changed by the time the user commits
+		May not be possible to satisfy the user's request
+
+Airline seats: Pessimistic Escrow
+

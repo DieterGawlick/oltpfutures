@@ -1,0 +1,86 @@
+We need to step back a bit
+Defer the critique until later
+
+The time was right to look at OLTP
+
+Two things to be addressed
+	Airline
+	Online banking
+Wasn't obvious that it was even possible
+Initial proposal for an OLTP system was rejected as "not feasible"
+What are the challenges
+	In the batch system: 
+		Destroy the old version
+		Add the new version
+	In the OLTP
+		Had to be up
+		Had to be right all the time
+		What functionality to provide: What does the user want?
+			To communicate with the data
+Then define what are the things that need to be done
+	Functionality
+		IMS was present
+			Recovery, restart
+			From the user to the message to the system to the database and back
+			Locking (outside of the hotspots) was fine
+			IMS writes a commit record and we can now 
+				- Notify the external world that everything is done
+				- Make it public		
+	
+	But not sufficient
+		Bank was blind to things like the business ledger, total aggregations (now analytics)
+			You need a ledger make the banker happy
+		Operational characteristics were on the wrong level
+			Throughput vs. Response time
+				Think of the traffic light
+				How often does the light change (response time)
+				How many cars get through (throughput)
+			Dealing with hotspots
+				Aggregates
+				Ledger (one transaction to the next)				
+			Needed a strict transaction model
+				Can't afford to lose anything 			
+			Recovery/Restart but has to be instantaneous
+		Three most optimizations 
+			Throughput (group commit)
+			Response time (fast commit): did not always wait for lock-write-ahead 
+				We have the messages but don't send them until we get the lock-write-ahead we don't send the message
+			Hotspots did not allow classic locking, so we have escrow
+			Commit process
+		Resolved through
+			Two phase (non-distributed) commit
+			Group commit
+Describe the interaction between the user and the data
+	The system is transparent: The user is talking directly to the data
+Fault tolerance
+	Needs to be handled by the infrastructure, not the developer, 
+	Introduced
+		Commercial two-phase commit
+		Did not have understand the geometry of the disk (just saw blocks that got written)
+			At the end of each block, write down the number of the block so that if power is lost, we can see what was missing in the event of an I/O error
+
+Issues
+	SQL felt that messages 
+		weren't part of the data/not important
+		not designed for serialization
+		Blockchains, on the other hand, are all about messages
+	JSON was designed to be serialized
+
+Banking vs. Airline booking
+	Airline had trained operator
+	Ultimate inventory was the ticket 
+		Bank, on the other hand, the ledger was the final
+		In banks, the database is the real world
+			We don't need to treat every inventory manager as banking (the database is not the world)
+
+TP-Light
+	Removed the communication to the application developer
+	Bad, bad
+
+Limit references (this all before "computer science" was a thing)
+
+DB2
+	Clearly a step backwards
+	No longer a communication with the user
+	Just the user and the application
+	Didn't include the messaging

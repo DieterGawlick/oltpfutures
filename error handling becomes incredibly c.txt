@@ -1,0 +1,49 @@
+error handling becomes incredibly complicated
+hide recovery 
+
+e.g. when booking a trip
+	"Show me the options"
+	"Hold options" - reserve (system says "Sure. For an hour")
+		System discards option for you 
+		System reminds you that you need to commit
+	May be disconnected/system crashes
+		Need to restore
+	Picks an option - book an option
+	System needs to notify all booked users when option changes
+		E.g. a flight changes
+
+"The language should make everything as transparent as possible"
+Execution is easy
+	Operation characteristics are harder: reliability (MTTR), response time
+	Ideally, handled by infrastructure
+
+Can not have transactions between autonomous systems
+Requires holding a resource over time -- something not built into our existing systems
+
+Process
+1. Job is done (but not yet recoverable): not available to the outside world
+2. Work is made recoverable: now can be shared with the outside world (send a message)
+3. Resources released
+4. Commit is performed (Log write ahead)
+	Log write ahead bundled multiple changes into a single write
+	And included messages
+
+Lock was handled by, for every read, hashing to a location
+	A large enough range that most locations were empty
+When the location wasn't empty, indicated a potential conflict
+	Two processes reading the same data
+
+OS had to be extended
+	A process (the actives system)
+	A shadow process who couldn't make changes -- could only read dumps when the system crashed
+		sole purpose was 
+	The journal (the control system) was how the process communicated with the shadow process
+		The control structure
+
+Handling missing messages
+	I get message #8 from the client
+	But the previous message I saw from that client was #5
+	Send message to client "Last message I got was #5"
+	Gets messages 6, 7, 8 from client
+	
+

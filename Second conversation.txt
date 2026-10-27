@@ -1,0 +1,21 @@
+SPRT: time series analysis
+How do I recognize that a reporting device is unreliable
+we knew that online was around the corner
+donate locks processes 
+have your ducks lined up
+"in escrow" = "on hold" -> systems makes an item invisible to other users for unique items
+			   for identical items, merely make sure there's "enough"
+Initially reduced the problem to one that you could solve rather than what the customer needed
+
+The cylinder was critical but invisible to the user. Advised the user to make a commit when hit a cylinder boundary
+
+Batch processing: You pushed the online writes ahead of, writing out whole transactions (100 transaction batches)
+
+
+Still to ask
+	GET/PUT -- select for update, locking
+	hot spots -- (retrieved twice) initial value retrieved by two processes, first one to commit changes value
+			treated as a deadlock
+			try the operation again
+
+

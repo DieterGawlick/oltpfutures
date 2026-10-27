@@ -1,0 +1,29 @@
+Didn't yet understand the nature of saga
+
+The saga model
+	A set of related transactions
+	Semantics
+		"What do you have"/"Find availability"
+		"Hold things"/"Reserve"
+		"Commit"
+
+Saga of planning (assembling the resources for) a trip
+	Find a hotel
+	Put it on hold
+		Infrastructure: put a subscription on the resource to be notified
+	Find a flight
+	Put it on hold
+		Infrastructure: put a subscription on the resource to be notified
+	Find a different hotel
+	Put it on hold
+		Infrastructure: put a subscription on the resource to be notified
+	Find a different flight
+	Put it on hold
+		Infrastructure: put a subscription on the resource to be notified
+	Assemble a saga of a flight and hotel
+		Only use resources that are still available
+	Execute the saga (all taken care of by the infrastructure)
+		Commit the selected hotel/flight
+		Release the other resources
+		Notify the user
+	

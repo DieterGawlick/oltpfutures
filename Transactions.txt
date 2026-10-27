@@ -1,0 +1,134 @@
+Transactions
+	Bunching, Journaling, and scaling
+	XRF, RAID 5, and Recovery
+
+Bunching, Journaling, and scaling__________________________________________
+
+We perceive the world as a hierarchy and is the natural way for viewing data.
+The interface to the system needs to be hierarchal and/or based on a time series of captured measurements
+	But even in the timeseries, measurements belong to some component
+	Statistics dependent on our ability to roll up statistics through a hierarchy
+		We need to know which sensor belongs to which component (metadata) and, in turn, what that component belongs to, and so on 
+
+"At the time we started we could only do I/O when we opened the database."
+
+As stress on the system increases -- as more activities pile up -- the system bunches the activities
+It's the number of bunches that matters, less so the number of activities in each bunch
+
+Invoking a subroutine has costs in saving and restoring context
+If you're going to a subroutine, you should bunch activities for the subroutine to perform
+
+Journal
+	Has information for 10 writes in the transaction
+		Placed in the fastest cache
+		Group commit
+	Log Write Ahead tells me
+		I can go to the subroutine with my 10 writes
+		Send the 10 related messages
+		Group commit follows
+
+Traffic light analogy
+	Throughput is high with traffic lights
+	Response time suffers
+
+But the ledger becomes a hotspot
+	You have, for example, 50 people writing to the ledger
+	Internal two phase deals with this
+		The first commit isn't to the hotspot, it's to the account, internal memory
+		The second commit is to the ledger...eventually and part of a bunch
+		
+Two kinds of I/O
+	Disk I/O
+	Messaging I/O
+
+The application does a fast commit
+	The infrastructure takes care of the log write ahead, group commit, sending messages (as above)
+	Communication between the application and the OS required a 40 byte buffer that, essentially, said run this code for these 10 transactions
+
+The advent of SQL and moving messages out of the transaction effectively put blinders on	
+
+Research immutable data in Dieter's recent document	
+
+XRF, RAID 5, and Recovery__________________________________________________________________
+
+RAID 5
+Need to cover striping and XOR or just making copies
+
+If data is added to the journal as it happens, it's not the right order
+Better: If the journal is a timeseries that organizes related actions (records that look similar)
+
+So we have sensors that record what happens in a time series that groups adjacent records
+	Record size reduced by a factor by 30 times
+	Matters because, potentially, millions of records
+
+IMS introduces had two approaches towards writing 
+	write a temporary journal record, oriented towards response time
+		Don't mind if the header is large because it's not kept around for long
+		Log Write Ahead in the ledgers
+	write the final journal record, oriented towards throughput (group commit)
+		Group commit
+
+Throughput (and reliability) is further improvement by using RAID 5 -- writing out in parallel to stripes
+	Can be hundreds of times faster than the disk speed
+	XOR operations in real time can recreate any lost stripe
+
+If you then write to another site a 100 miles away, you have disaster recovery
+	XOR to regenerate any missing data
+
+Message back to the user was sent when the transaction was recoverable
+	There's an internal and external view
+		The external view of the transaction -- what is available to the user -- is what is recoverable
+			Though they might not yet be completely "finalized"
+		That's in the internal view of the transaction 
+			The transactions that are not yet finalized
+
+Escrow is something in the future
+	Not something now
+	A reservation
+
+I want a seat on the flight
+	Flight doesn't leave for two months
+	I will consume it when the flight takes off
+
+At a store, when you put a product in your cart
+	You don't own it yet
+	But no one else can have it
+	You abandon the cart
+		Problem: Product not available to anyone else until returned
+
+Escrow: You have reserved $100
+	No longer available in the account
+	Held in limbo pending the end of the activity
+	Not delivered to the other party
+	The escrow is "in limbo" until the end of the activity
+		When the intent of putting the money in escrow is achieved
+		Do you get something back (intent achieved)?
+		Do you get your money back (intent not achieved)?
+
+
+Justification for Escrow
+
+For online statistics/online aggregates (e.g. cash flow in individual accounts, cash flow for the bank): hot spots
+Update these aggregates with each transaction 
+	If you are doing a lock, read current value, (modify), update, release lock
+		Which would limit you to 10 transactions per second
+So, instead, move to just changing the cumulative value
+	Ignore the sequence of transactions and just change the cumulative value
+
+This is key: Works just as well for quantity on hand for !!any!! inventory
+	Provided all the items in that inventory are identical)
+		Wouldn't work, for example, for seats on a plane unless you don't assign seats
+		Does work for a bank account where all money looks alike
+So the Validate and Update single operation: 
+	Got up to 100 transactions per second on a single record
+
+Airline seats: Optimistic Escrow
+	Can I complete this transaction right now?
+		At the time the user looks at the seat
+	Then I assume I can do it later 
+		When the user commits to the seat
+	But, things may have changed by the time the user commits
+		May not be possible to satisfy the user's request
+
+Airline seats: Pessimistic Escrow
+

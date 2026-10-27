@@ -1,0 +1,30 @@
+Most urgent thing wasn't banking but in airlines
+	People calling from all over the world
+	Call centres were getting too big
+	Then banking
+
+Initially, "online" meant "in the same building"
+	But then...why not a longer wire
+	rather than a clear cut once a day -- get me yesterday's tapes and update them to tomorrow's data
+	But online was now continuous 
+	Start of inventory management -- the base of everything we do
+
+And we still need effective inventory management is still the basis of everything we do
+	If you don't know what your assets are...you can't do anything
+	The debit/credit is the highest level
+
+Eventual inventory only possible if there is a physical reality to check against
+
+Reflection point: We did this
+	We got this working
+	Then relational databases came along
+	Then client-server
+	We've lost some technology that was known in the 70s
+
+Still suffering from the ledger problem and the parallel processing 
+
+Paper on concurrency models gives idea 
+
+
+
+	

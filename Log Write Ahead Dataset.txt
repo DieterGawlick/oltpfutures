@@ -1,0 +1,38 @@
+Log Write Ahead Dataset
+	The road to LSM
+
+Write out the journal as fast as possible
+	Get to "recoverability" as fast as possible
+	Once the transaction is recoverable, the world outside the transaction can be notified
+
+In order to use the journal, we need long blocks
+	the journal has two characteristics
+		When you write it
+		Where you read it
+	The journal is there to ensure recoverability 
+	“recoverability” means “written to the journal”
+
+Writing a long block (16K) takes awhile - you have to wait a long time
+	Plus seek time
+	Further slowed down waiting for the sector to come around
+		Perhaps moving to the right cylinder
+	First step: Dedicate a disk to the journal
+	Seek time (on average): half a rotation
+	Altogether 30 millisecond
+
+Solution
+	Reduce search, seek, and write
+	Just take the next block -- seek time is now just half a block
+
+Don't write out the whole journal
+	Write out notes
+	Write out a short block (2K) and just leave the rest blank
+	Total time now down to 2 milliseconds
+
+LSM (get Wikipedia article): Log-structured merge-tree
+
+scattered read/write scattered
+
+IRLM in IMS
+	Solved sharing data
+	Tied to messaging

@@ -1,0 +1,32 @@
+The buyer and the seller have a correlated workflow - a discussion
+	Which makes messaging critical
+
+Messages are the record of the discussion 
+
+Need message to be enrolled into the database transaction
+The messages must be preserved in a guaranteed (e.g bitchain) to build a legally binding log 
+	Messages include the signature (encrypted with their private key) of the sending partner
+
+Transactioned messages vs. logged messages
+
+Messages need to be typed to avoid being "messy"
+	With an external serialization to be sent
+
+SQL has no approved interoperable serialization format and so no messages
+	The message becomes a side effect rather than the point
+
+Sagas -- a series of discussion that commits automatically all the "sub discussion"
+
+On one side you have to be a resource manager with a two-phase commit with escrow
+
+If your messaging system/database can't deal with the data type problem of the message, the system collapses
+	Without a typing we're left with "Messages are not data" -- messages are data, provided they're typed
+
+A message is inherently hierarchical, perhaps the HTTP Response
+Header
+  Who you are
+  Date
+  Signature
+
+Items/content
+	A JSON payload that is hierarchical

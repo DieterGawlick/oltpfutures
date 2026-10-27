@@ -1,0 +1,67 @@
+expand xrf -- also used for new releases
+	Could have multiple backups
+
+Select wait for
+	dequeue is an insert (exactly once begins)
+		"get a message" begins a transaction
+		is an "exactly once" protocol
+		update the record
+		And do the "other stuff": update the stats, notify the teller, etc.
+	triggers the select wait
+	makes XRF possible
+	Single journal (two journals is already a distribute two-phase commit)
+
+TPC-A
+	Only measured a very small part of the process
+	did not include the user experience, messaging
+	Ignores the autonomous entity represented by the ATM: the user
+
+		The user prepares the transaction
+		Sends the message
+			TPC-A is relevant
+		The ATM receives the transaction
+		ATM dispenses the cash
+
+Add to the journal (the sequential dependent): the ledger of activities and the changes to the records
+	- a pointer to the first sequential dependent
+	- which has a pointer to the second sequential dependent
+		The sequence of commits
+
+if...but however
+
+three things
+	Messages are a hard problem to the user (who has no tools for doing)
+	
+Do the commit
+	The system crashes
+	Did the message get out
+
+The message comes in
+	The system crashes
+	Is the message lost
+
+
+The argument for a database
+	Keep data around
+
+The argument for messages in the database
+	Don't think of messages as events
+		They are information they are sent to someone else
+		With the expectation that the user will react
+		A message is a record where a reaction is required
+
+Not "two phase commit" --> "commit processing"
+
+AQ (Oracle Advanced Queuing) first successful attempt to put messaging into the database
+	Two changes: 
+		Couldn't use "select" because it would start pulling stuff
+			"Select wait for"		
+		Need to keep old messages -- the ledger of the communication
+	Set up "something of interest": 
+		let me know if my account goes below $10 dollars/has a transaction over $1,000			
+	CQN: Continuous Query Notification 
+		Add in "exactly one notification"
+
+Look at the depths of group commit
+	Traffic light: if the lights work, it's a group commit and desirable for high volumes where throughput matter
+	Stop sign: not a group commit and acceptable for low volumes and/or throughput doesn't matter

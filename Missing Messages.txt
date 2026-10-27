@@ -1,0 +1,6 @@
+Messages
+
+Ensuring ‘Exactly Once’ Message Delivery
+Since messages were the mechanism for communicating between the member of a transaction, it was essential that all messages be delivered and, because most transactions were not idempotent, delivered ‘exactly once.’ To ensure that missed messages were detected, each messages sent from, for an example, an ATM was assigned a message number that was incremented in sequence for each new message. In addition each party involved in a transaction kept a log of messages sent and the last message received.
+If a message was ‘lost in transmission’ the party that should have received the message would be able to detect that by noting a gap in the sequence between the number of the message just received and and the last message received. When a missed message was detected at, for example, the bank’s end, the banking system could send the number of the last message received and ask the ATM to resend the message sent since that number. The ATM could replay all of the message from the log it kept.
+Similarly, if a message was received twice, either of the parties could detect that: The second version of the message would repeat a number earlier than the one expected by the reciever.

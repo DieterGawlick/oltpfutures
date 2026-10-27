@@ -1,0 +1,44 @@
+Put in the form of "what readers can learn from this"
+	What we like to support
+	What we won't like to support
+
+Without what we discuss
+	We made a decision not to use this
+	Raises costs to customers and organization around
+		Journaling
+		Recovery
+		Auditing/tracking (a regulatory requirement in banking)
+	
+		
+
+Is the journal an immutable snapshot of the data after the update?
+
+What objects you have
+How you want to manipulate them
+Operational Characteristics (the boring ones: fast, security)
+
+What was the state of the art at that time?
+What would you offer in replacement of the current state of the art?
+What is the cost of not offering that?
+
+I have all the data for the event
+I don't necessarily know that the event has been recorded
+	E.g. overnight batch processing
+So someone who queries the system before that processing won't see it
+	Snapshots provide auditing and tracking when events were recorded
+	Immutable data: Journal
+		Organized by time
+		Good for analytics
+		But difficult to reconcile across systems
+
+Hierarchical data: Data from a specific perspective/focus
+NoSQL databases a return to hierarchical data as Json documents
+
+Take a point as of 1975/1980
+Focus was exclusively on RDB technology
+Anything that didn't fit in RDB was ignored
+What has changed
+What is left to be done
+	RDB ignores messaging
+
+Mike Stonebraker

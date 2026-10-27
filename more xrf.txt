@@ -1,0 +1,14 @@
+Effectively, you are always ready to restart, even before you actually fail: 
+
+Your "other" system is ready to be used you can use without effort when the system fails (and it will fail). 
+
+This is possible when the data is recoverable (when the data is in the journal for the “other” system) and that’s the point where the data can be revealed to the outside world...when a message can be sent.
+
+We do not recover the database. Instead we know which records are not committed/incomplete and need to be cleaned up before we make the "other" database available.
+
+You need to create a QnA Maker service named QNA12345678 in the East US Azure region. QNA12345678 must contain a knowledge base that uses the questions and answers available at https://support.microsoft.com/en-us/help/12435/windows-10-upgrade-faq.
+
+You need to add a question pair to the published knowledge base used by a QnA Maker service named QNA12345678. The question must be: `What will be the next version of Windows?`
+
+You have a bot that was developed by using the Microsoft Bot Framework SDK. The bot is available at an endpoint of https://bot.contoso.com/api/messages.
+You need to create an Azure Bot named bot12345678 that connects to the bet.

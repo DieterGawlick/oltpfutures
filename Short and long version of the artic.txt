@@ -1,0 +1,23 @@
+Short and long version of the article
+
+Add to OLTP
+	Complete solution is a wish list
+	Always asking how far am I on this list? How close am I to a solution
+
+	Wish list for OLTP (not a complete list)
+		Running at the speed of life
+		Accuracy
+		Reliability (no backup in the real world)
+		Auditability (this was now the only document)
+		Fault Tolerance
+		Security
+		Process Management
+		Ledger (at least as good as BlockChain)
+
+	Also wanted: ++Handled through infrastructure++
+		Some parts visible to developer: BeginTransaction, EndTransaction
+		Most parts known to fewer and fewer people 
+			Recovery is the responsibility of the system managers
+
+
+
