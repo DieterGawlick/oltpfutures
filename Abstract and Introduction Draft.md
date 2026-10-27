@@ -1,5 +1,6 @@
 # The Beginnings of OLTP Systems  
-<br/>Abstract
+
+## Abstract
 
 Most online transaction systems can be classified as 'inventory managers' with inventories that range from a stock of physical assets (books, clothing) through more abstract assets (seat or room bookings) to purely digital ones (balances in bank accounts). The ultimate measure of success for any of these systems is whether they solve the requirements of the complete problem: How well the system meets the users' needs.
 
